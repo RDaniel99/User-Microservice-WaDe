@@ -45,6 +45,16 @@ def insert_db(table, fields=(), values=()):
 def register():
     # Get the form data
     data = request.get_json()
+
+    if 'username' not in data:
+        return jsonify({'message': 'username field is mandatory'})
+
+    if 'password' not in data:
+        return jsonify({'message': 'password field is mandatory'})
+
+    if 'email' not in data:
+        return jsonify({'message': 'email field is mandatory'})
+
     username = data['username']
     password = data['password']
     email = data['email']
@@ -63,6 +73,13 @@ def register():
 def login():
     # Get the form data
     data = request.get_json()
+
+    if 'username' not in data:
+        return jsonify({'message': 'username field is mandatory'})
+
+    if 'password' not in data:
+        return jsonify({'message': 'password field is mandatory'})
+
     username = data['username']
     password = data['password']
 
@@ -89,16 +106,32 @@ def edit():
 
     # Get the form data
     data = request.get_json()
-    password = data['password']
-    email = data['email']
 
-    # Hash the password for security
-    hashed_password = generate_password_hash(password, method='sha256')
-
-    # Update the user's password in the database
+    added = False
     conn = get_db()
     cur = conn.cursor()
-    cur.execute('UPDATE users SET password = ?, email = ? WHERE username = ?', (hashed_password, email, current_user))
+
+    if 'password' in data:
+        added = True
+        hashed_password = generate_password_hash(data['password'], method='sha256')
+
+        cur.execute('UPDATE users SET password = ? WHERE username = ?',
+                    (hashed_password, current_user))
+
+    if 'email' in data:
+        cur.execute('UPDATE users SET email = ? WHERE username = ?',
+                    (data['email'], current_user))
+        added = True
+
+    if 'discogs_token' in data:
+        cur.execute('UPDATE users SET discogs_token = ? WHERE username = ?',
+                    (data['discogs_token'], current_user))
+        added = True
+
+    if not added:
+        conn.close()
+        return jsonify({'message': 'At least one field should be updated'})
+
     conn.commit()
     conn.close()
 
