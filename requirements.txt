@@ -3,4 +3,4 @@ Flask-PyMongo
 Flask-CORS
 Flask-JWT-Extended
 gunicorn==20.1.0
-pysqlite
+pysqlite3
