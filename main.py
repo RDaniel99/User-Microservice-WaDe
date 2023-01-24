@@ -139,5 +139,27 @@ def edit():
     return jsonify({'message': 'User updated successfully'})
 
 
+@app.route('/profile/<username>', methods=['POST'])
+@jwt_required()
+def profile(username):
+    current_user = get_jwt_identity()
+    user_to_display = query_db('SELECT * FROM users WHERE username = ?', [username], one=True)
+
+    if user_to_display is None:
+        return jsonify({'message': 'There is no user with this username'})
+
+    if username != current_user:
+        return jsonify({'userData': {
+            'email': user_to_display['email'],
+            'username': user_to_display['username']
+        }})
+
+    return jsonify({'userData': {
+        'email': user_to_display['email'],
+        'username': user_to_display['username'],
+        'discogs_token': user_to_display['discogs_token']
+    }})
+
+
 if __name__ == '__main__':
     app.run()
