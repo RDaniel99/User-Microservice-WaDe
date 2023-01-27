@@ -161,5 +161,26 @@ def profile(username):
     }})
 
 
+@app.route('/playlists', methods=['POST'])
+@jwt_required()
+def create_playlist():
+    current_user = get_jwt_identity()
+    playlist_content = request.data.decode()
+    insert_db('playlists', ('playlist_content', 'user_id',), (playlist_content, current_user, ))
+    return 'Playlist created', 201
+
+
+@app.route('/playlists/<int:playlist_id>', methods=['GET'])
+@jwt_required()
+def get_playlist(playlist_id):
+    current_user = get_jwt_identity()
+    playlist = query_db('SELECT playlist_content FROM playlists WHERE playlist_id = ? AND user_id = ?',
+                        (playlist_id, current_user), one=True)
+    if playlist:
+        return playlist['playlist_content'], 200
+    else:
+        return 'Playlist not found', 404
+
+
 if __name__ == '__main__':
     app.run()
