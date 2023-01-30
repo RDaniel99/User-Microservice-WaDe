@@ -1,5 +1,6 @@
 import sqlite3
 
+from flask_cors import CORS
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,6 +9,7 @@ from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
+CORS(app)
 
 # Set up Flask-JWT
 jwt = JWTManager(app)
