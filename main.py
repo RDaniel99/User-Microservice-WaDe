@@ -134,6 +134,11 @@ def edit():
                     (data['discogs_token'], current_user))
         added = True
 
+    if 'discogs_secret' in data:
+        cur.execute('UPDATE users SET discogs_secret = ? WHERE username = ?',
+                    (data['discogs_secret'], current_user))
+        added = True
+
     if not added:
         conn.close()
         return jsonify({'message': 'At least one field should be updated'}), 400
@@ -163,7 +168,8 @@ def profile(username):
     return jsonify({'userData': {
         'email': user_to_display['email'],
         'username': user_to_display['username'],
-        'discogs_token': user_to_display['discogs_token']
+        'discogs_token': user_to_display['discogs_token'],
+        'discogs_secret': user_to_display['discogs_secret']
     }}), 200
 
 
