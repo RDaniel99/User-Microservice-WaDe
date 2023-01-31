@@ -40,8 +40,10 @@ def insert_db(table, fields=(), values=()):
         ', '.join(['?'] * len(values))
     )
     cur.execute(query, values)
+    inserted_row_id = cur.lastrowid
     conn.commit()
     conn.close()
+    return inserted_row_id
 
 
 @app.route('/register', methods=['POST'])
@@ -178,8 +180,17 @@ def profile(username):
 def create_playlist():
     current_user = get_jwt_identity()
     playlist_content = request.data.decode()
-    insert_db('playlists', ('playlist_content', 'user_id',), (playlist_content, current_user,))
-    return 'Playlist created', 201
+    inserted_id = insert_db('playlists', ('playlist_content', 'user_id',), (playlist_content, current_user,))
+    return f'Playlist created with id = {inserted_id}', 201
+
+
+@app.route('/playlists', methods=['GET'])
+@jwt_required()
+def get_playlists():
+    current_user = get_jwt_identity()
+    playlists_ids = query_db('SELECT playlist_id FROM playlists WHERE user_id = ?', [current_user])
+    playlists_ids = [playlists_ids[idx]['playlist_id'] for idx in range(len(playlists_ids))]
+    return jsonify(playlists_ids), 200
 
 
 @app.route('/playlists/<int:playlist_id>', methods=['GET'])
@@ -199,49 +210,53 @@ def get_playlist(playlist_id):
 def get_playlist_info(playlist_id):
     current_user = get_jwt_identity()
     playlist = query_db('SELECT playlist_content FROM playlists WHERE playlist_id = ? AND user_id = ?',
-                        (playlist_id, current_user), one=True)
+                        (playlist_id, current_user), one=True)[0]
 
     if not playlist:
         return 'Playlist not found', 404
 
-    root = ET.fromstring(playlist['playlist_content'])
+    root = ET.fromstring(playlist)
 
     if not root.tag.__contains__('playlist'):
         return jsonify({'message': 'Something went wrong when parsing your playlist...'}), 400
 
-    if not list(root)[0].tag.__contains__('trackList'):
+    playlist_info = {
+        'meta': {},
+        'tracks': []
+    }
+
+    search_list = ['title', 'creator', 'image', 'location', 'date', 'genre', 'info']
+
+    indexTrackList, cnt = -1, 0
+    for attr in list(root):
+        if attr.tag.__contains__('trackList'):
+            indexTrackList = cnt
+
+        for to_search in search_list:
+            if attr.tag.__contains__(to_search):
+                playlist_info['meta'][to_search] = attr.text
+
+        cnt += 1
+
+    if indexTrackList == -1:
         return jsonify({'message': 'Something went wrong when parsing your playlist...'}), 400
 
     # Extract information from each track in trackList
 
-    tracks = []
-    for track in list(list(root)[0]):
+    for track in list(list(root)[indexTrackList]):
         if not track.tag.__contains__('track'):
             return jsonify({'message': 'Something went wrong when parsing your playlist...'}), 400
 
         json = {}
 
         for attrib in list(track):
-            if attrib.tag.__contains__('location'):
-                json['location'] = attrib.text
-            if attrib.tag.__contains__('creator'):
-                json['creator'] = attrib.text
-            if attrib.tag.__contains__('album'):
-                json['album'] = attrib.text
-            if attrib.tag.__contains__('title'):
-                json['title'] = attrib.text
-            if attrib.tag.__contains__('annotation'):
-                json['annotation'] = attrib.text
-            if attrib.tag.__contains__('duration'):
-                json['duration'] = attrib.text
-            if attrib.tag.__contains__('image'):
-                json['image'] = attrib.text
-            if attrib.tag.__contains__('info'):
-                json['info'] = attrib.text
+            for to_search in search_list:
+                if attrib.tag.__contains__(to_search):
+                    json[to_search] = attrib.text
 
-        tracks.append(json)
+        playlist_info['tracks'].append(json)
 
-    return jsonify({'message': tracks}), 200
+    return jsonify(playlist_info), 200
 
 
 if __name__ == '__main__':

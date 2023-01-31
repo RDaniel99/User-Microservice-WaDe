@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist
+	xmlns="http://xspf.org/ns/0/" version="1">
+	<title>Eminem Show</title>
+	<creator>Eminem</creator>
+	<image>https://en.wikipedia.org/wiki/File:The_Eminem_Show.jpg</image>
+	<info>Shady, Aftermath, Interscope</info>
+	<location>Encore</location>
+	<date>26 May 2002</date>
+	<genre>Hip Hop</genre>
+	<trackList>
+		<track>
+			<location>https://jesusful.com/wp-content/uploads/music/2022/08/Eminem_-_Without_Me_(Jesusful.com).mp3</location>
+			<title>Without Me</title>
+			<creator>Eminem</creator>
+			<duration>581958</duration>
+			<image>https://en.wikipedia.org/wiki/File:Eminem_-_Without_Me_CD_cover.jpg</image>
+		</track>
+		<track>
+			<location>https://fine.sunproxy.net/file/U1UyY3kvOE43Q2RuaVBBZGdvaEtkK2s5blpxRFJ1T2l0a05MamdKUWVYM3h4UHVKUWszRERlR1NOdkgwNk9LVndVMDcyUzk0dVNQTEpxdXR1ODExbk5RVy9jc2FpUTM2SlpyZVpVOUxvRk09/Eminem_-_Cleanin_Out_My_Closet_(ColdMP3.com).mp3</location>
+			<title>Cleanin' Out My Closet</title>
+			<creator>Eminem</creator>
+			<duration>458951</duration>
+			<image>https://en.wikipedia.org/wiki/File:Eminem_-_Cleanin%27_Out_My_Closet_CD_cover.jpg</image>
+		</track>
+		<track>
+			<location>https://fine.sunproxy.net/file/U1UyY3kvOE43Q2RuaVBBZGdvaEtkK2s5blpxRFJ1T2l0a05MamdKUWVYM3h4UHVKUWszRERlR1NOdkgwNk9LVmNCRlk5VlpkN0JmOEgzYVp6TmdrMDk3NDJURnAwNW9SZXl2RVhmdnZCWVE9/Eminem_feat._Dina_Rae_-_Superman_(ColdMP3.com).mp3</location>
+			<title>Superman</title>
+			<creator>Eminem</creator>
+			<duration>5628515</duration>
+			<image>https://en.wikipedia.org/wiki/File:Eminem_-_Superman_single.png</image>
+		</track>
+	</trackList>
+</playlist>

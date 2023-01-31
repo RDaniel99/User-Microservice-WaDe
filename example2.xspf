@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist
+	xmlns="http://xspf.org/ns/0/" version="1">
+	<title>The Dark Side of the Moon</title>
+	<creator>Pink Floyd</creator>
+	<image>https://en.wikipedia.org/wiki/File:Dark_Side_of_the_Moon.png</image>
+	<info>Shady, Aftermath, Interscope</info>
+	<location>London</location>
+	<date>1 March 2002</date>
+	<genre>Progressive Rock</genre>
+	<trackList>
+		<track>
+			<location>https://jesusful.com/wp-content/uploads/music/2022/08/Eminem_-_Without_Me_(Jesusful.com).mp3</location>
+			<title>Money</title>
+			<creator>Pink Floyd</creator>
+			<duration>5185915</duration>
+			<image>https://en.wikipedia.org/wiki/File:Money_1973.jpg</image>
+		</track>
+		<track>
+			<location>https://soundcloud.com/lysergic-dream/pink-floyd-money-dark-side-of</location>
+			<title>Us and Them</title>
+			<creator>Pink Floyd</creator>
+			<duration>458951</duration>
+			<image>https://en.wikipedia.org/wiki/File:Pink_Floyd_-_Us_And_Them_(label).png</image>
+		</track>
+		<track>
+			<location>https://soundcloud.com/user392553992/pink-floyd-us-and-them-dvs-remix-by-dvs-mp3?utm_source=clipboard</location>
+			<title>Superman</title>
+			<creator>Eminem</creator>
+			<duration>5628515</duration>
+			<image>https://en.wikipedia.org/wiki/File:Eminem_-_Superman_single.png</image>
+		</track>
+	</trackList>
+</playlist>
