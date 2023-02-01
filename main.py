@@ -10,7 +10,7 @@ from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
-CORS(app, resources={r"/*": {"origins": "*", "methods": "*"}})
+CORS(app, resources={r"/*": {"origins": "*", "methods": "*", "headers": "*"}})
 
 # Set up Flask-JWT
 jwt = JWTManager(app)
